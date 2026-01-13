@@ -1,4 +1,4 @@
- { stdenv, lib, dpkg, fetchurl, libxdamage, libxfixes, libxrandr, libxtst, libxi, libxext, libdrm, libgbm, pulseaudio, libxkbcommon, libxcb-cursor, libxcb-wm, libxcb-image, libxcb-keysyms, libxcb, libxcb-render-util, libxrender, libx11, libGL, dbus, glibc, libgcc, autoPatchelfHook
+ { stdenv, lib, dpkg, fetchurl, wayland, libxdamage, libxfixes, libxrandr, libxtst, libxi, libxext, libdrm, libgbm, pulseaudio, libxkbcommon, libxcb-cursor, libxcb-wm, libxcb-image, libxcb-keysyms, libxcb, libxcb-render-util, libxrender, libx11, libGL, dbus, glibc, libgcc, autoPatchelfHook
 }:
 
 stdenv.mkDerivation rec {
@@ -63,6 +63,7 @@ stdenv.mkDerivation rec {
       dbus
       glibc
       libgcc
+      wayland
     ];
     
   meta = with lib; {
