@@ -1,13 +1,13 @@
- { stdenv, lib, dpkg, fetchurl, wayland, libxdamage, libxfixes, libxrandr, libxtst, libxi, libxext, libdrm, libgbm, pulseaudio, libxkbcommon, libxcb-cursor, libxcb-wm, libxcb-image, libxcb-keysyms, libxcb, libxcb-render-util, libxrender, libx11, libGL, dbus, glibc, libgcc, autoPatchelfHook
+ { stdenv, lib, dpkg, fetchurl, wayland, libxdamage, libxfixes, libxrandr, libxtst, libxi, libxext, libdrm, libgbm, pulseaudio, libxkbcommon, libxcb-cursor, libxcb-wm, libxcb-image, libxcb-keysyms, libxcb, libxcb-render-util, libxrender, libx11, libGL, dbus, glibc, libgcc, autoPatchelfHook, pkgs
 }:
 
 stdenv.mkDerivation rec {
   pname = "ninja-player";
-  version = "11.35.7720";
-
+  version = "13.35.8340";
+  
   src = fetchurl {
     url = "https://resources.ninjarmm.com/development/ninjacontrol/${version}/ninjarmm-ncplayer-${version}_amd64.deb";
-    hash = "sha256-VEroAcOIZJSONC1wGsQDzDUkgCt5taFCS0ghyopiO00=";
+    hash = "sha256-0A5INufc7MyobhloJblMUf85mza0BewiiD9gn1ZhEOg=";
   };
   
   nativeBuildInputs = [
@@ -28,18 +28,26 @@ stdenv.mkDerivation rec {
   # unpackCmd = "dpkg -x ninjarmm-ncplayer-${version}_amd64.deb .";
   
   
+  
+     
   installPhase = ''
     runHook preInstall
-    mkdir -p $out/bin
+    mkdir -p $out/share/applications
     substituteInPlace \
       $out/usr/share/applications/ninjarmm-ncplayer.desktop \
-      --replace /opt/ $out/opt/
+      --replace-warn /opt/ $out/opt/
     #symlink the binary to bin
-    ln -s $out/opt/ncplayer/bin/ncplayer $out/bin/ncplayer
+    ln -s $out/opt/ncplayer/bin/ncplayer $out/share/applications/ncplayer
+    mkdir -p $out/share/applications
     
-    runHook postInstall
   '';
+  
+    postInstall = ''
+     runHook postInstall
+     #!/usr/bin/env bash
+     cp ~/myNix/result/usr/share/applications/ninjarmm-ncplayer.desktop ~/.local/share/applications/
 
+    '';
   buildInputs = [
       libxdamage
       libxfixes

@@ -1,0 +1,18 @@
+Initialize ncplayer.nix by opening a terminal in this directory (~/myNix/modules/ncplayer.nix) and running:
+
+nix-build -E 'with import <nixpkgs> {}; callPackage ./ncplayer.nix {}'
+
+try running it, may need to use the following commands as well:
+
+systemctl --user import-environment PATH
+systemctl --user restart xdg-desktop-portal.service
+
+may need to edit xdg-mimes to point all ninjaremote apps to use the ncplayer application
+
+may need to go to /home/chris/.config/mimeapps.list and add:
+
+x-scheme-handler/ninjarmm=ninjarmm-ncplayer.desktop
+
+copy ninjarmm-ncplayer.desktop from your result/usr/share/applications folder into your ~/.local/share/applications folder. For some reason it will not allow you to automate this in the nix-build script which is annoying.
+
+/nix/store/skj1xxrx2wd96yihcw24r12sp5rlvvln-ninja-player-13.35.8340
